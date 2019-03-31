@@ -73,7 +73,10 @@ class Grid extends Components\Container
     /** @var array event for modifying data */
     public $onFetchData;
 
-    /** @var callback returns tr html element; function($row, Html $tr) */
+	/** @var array  */
+	public $display = [];
+
+	/** @var callback returns tr html element; function($row, Html $tr) */
     protected $rowCallback;
 
     /** @var \Nette\Utils\Html */
@@ -715,7 +718,7 @@ class Grid extends Components\Container
      * @param \Nette\Forms\Controls\SubmitButton $button
      * @internal
      */
-    public function handleFilter(\Nette\Forms\Controls\SubmitButton $button)
+    public function handleFilter(\Nette\Forms\Controls\SubmitButton $button, $justBody = false)
     {
         $values = $button->form->values[Filter::ID];
         $session = $this->rememberState //session filter
@@ -733,7 +736,7 @@ class Grid extends Components\Container
         }
 
         $this->page = 1;
-        $this->reload();
+        $this->reload($justBody);
     }
 
     /**
@@ -776,11 +779,16 @@ class Grid extends Components\Container
      * @return void
      * @internal
      */
-    public function reload()
+    public function reload($justBody = false)
     {
         if ($this->presenter->isAjax()) {
             $this->presenter->payload->grido = TRUE;
-            $this->redrawControl();
+	        if($justBody){
+		        $this->redrawControl("tableBody");
+	        }else{
+	        	$this->redrawControl();
+	        }
+
         } else {
             $this->redirect('this');
         }
@@ -935,7 +943,9 @@ class Grid extends Components\Container
 
         $buttons = $form->addContainer(self::BUTTONS);
         $buttons->addSubmit('search', 'Grido.Search')
-            ->onClick[] = callback($this, 'handleFilter');
+            ->onClick[] = function($button){
+        	    $this->handleFilter($button, true);
+            };
         $buttons->addSubmit('reset', 'Grido.Reset')
             ->onClick[] = callback($this, 'handleReset');
         $buttons->addSubmit('perPage', 'Grido.ItemsPerPage')

@@ -201,7 +201,10 @@ abstract class Container extends \Nette\Application\UI\Control
      */
     public function addColumnText($name, $label)
     {
-        return new Columns\Text($this, $name, $label);
+        if(count($this->display) == 0 || !in_array($name, $this->display)){
+        	return;
+        }
+    	return new Columns\Text($this, $name, $label);
     }
 
     /**
@@ -209,7 +212,10 @@ abstract class Container extends \Nette\Application\UI\Control
      */
     public function addColumnMail($name, $label)
     {
-        trigger_error(__METHOD__ . '() is deprecated; use addColumnEmail() instead.', E_USER_DEPRECATED);
+        if(count($this->display) == 0 || !in_array($name, $this->display)){
+        	return;
+        }
+    	trigger_error(__METHOD__ . '() is deprecated; use addColumnEmail() instead.', E_USER_DEPRECATED);
 
         return $this->addColumnEmail($name, $label);
     }
@@ -221,7 +227,10 @@ abstract class Container extends \Nette\Application\UI\Control
      */
     public function addColumnEmail($name, $label)
     {
-        return new Columns\Email($this, $name, $label);
+        if(count($this->display) == 0 || !in_array($name, $this->display)){
+        	return;
+        }
+    	return new Columns\Email($this, $name, $label);
     }
 
     /**
@@ -229,7 +238,10 @@ abstract class Container extends \Nette\Application\UI\Control
      */
     public function addColumnHref($name, $label)
     {
-        trigger_error(__METHOD__ . '() is deprecated; use addColumnLink() instead.', E_USER_DEPRECATED);
+        if(count($this->display) == 0 || !in_array($name, $this->display)){
+        	return;
+        }
+    	trigger_error(__METHOD__ . '() is deprecated; use addColumnLink() instead.', E_USER_DEPRECATED);
 
         return new Columns\Link($this, $name, $label);
     }
@@ -241,7 +253,10 @@ abstract class Container extends \Nette\Application\UI\Control
      */
     public function addColumnLink($name, $label)
     {
-        return new Columns\Link($this, $name, $label);
+        if(count($this->display) == 0 || !in_array($name, $this->display)){
+        	return;
+        }
+    	return new Columns\Link($this, $name, $label);
     }
 
     /**
@@ -252,7 +267,10 @@ abstract class Container extends \Nette\Application\UI\Control
      */
     public function addColumnDate($name, $label, $dateFormat = NULL)
     {
-        return new Columns\Date($this, $name, $label, $dateFormat);
+        if(count($this->display) == 0 || !in_array($name, $this->display)){
+        	return;
+        }
+    	return new Columns\Date($this, $name, $label, $dateFormat);
     }
 
     /**
@@ -265,7 +283,10 @@ abstract class Container extends \Nette\Application\UI\Control
      */
     public function addColumnNumber($name, $label, $decimals = NULL, $decPoint = NULL, $thousandsSep = NULL)
     {
-        return new Columns\Number($this, $name, $label, $decimals, $decPoint, $thousandsSep);
+        if(count($this->display) == 0 || !in_array($name, $this->display)){
+        	return;
+        }
+    	return new Columns\Number($this, $name, $label, $decimals, $decPoint, $thousandsSep);
     }
 
     /**********************************************************************************************/
